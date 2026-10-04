@@ -113,7 +113,8 @@ conf_thres = st.sidebar.slider("Confidence threshold", 0.05, 0.90, 0.25, 0.01)  
 iou_thres = st.sidebar.slider("NMS IoU", 0.10, 0.90, 0.50, 0.01)  # a tad higher
 use_tta = st.sidebar.checkbox("Test-time augmentation (slower, more recall)", value=True)
 
-st.title("♻️ Recyclables Detection — YOLOv11")
+st.title("♻️ Recyclables Detection — YOLO21l (Current Version Testing)")
+st.subtitle("Working on the data set of 3989 images")
 st.write("Upload an image; the model will draw boxes and list predictions with confidence.")
 
 st.sidebar.markdown(f"**Using weights:** `{weights_path}`")
