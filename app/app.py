@@ -108,12 +108,24 @@ model = load_model(str(DEFAULT_WEIGHTS))
 # ---- SIDEBAR ----
 st.sidebar.title("⚙️ Settings")
 weights_path = st.sidebar.text_input("Weights (.pt)", str(DEFAULT_WEIGHTS))
-imgsz = st.sidebar.selectbox("Image size", [768, 640, 512, 416], index=0)
-conf_thres = st.sidebar.slider("Confidence threshold", 0.05, 0.90, 0.25, 0.01)  # third augment is default
-iou_thres = st.sidebar.slider("NMS IoU", 0.10, 0.90, 0.50, 0.01)  # a tad higher
-use_tta = st.sidebar.checkbox("Test-time augmentation (slower, more recall)", value=True)
+model = load_model(weights_path)
+imgsz = st.sidebar.selectbox("Image size", [800, 640, 512, 416], index=0)
+use_tta = st.sidebar.checkbox("Test-time augmentation (slower, more recall)", value=False)
 
-st.title("♻️ Recyclables Detection — YOLO21l (Current Version Testing)")
+res = model.predict(source=str(src_path), imgsz=int(imgsz), conf=conf_thres,
+                    augment=use_tta, device="cpu", verbose=False)[0]
+st.image(res.plot()[:, :, ::-1], caption="Detections", use_container_width=True)
+
+rows = [{"label": model.names[int(c)], "conf": float(s)}
+        for c, s in zip(res.boxes.cls, res.boxes.conf)]
+if rows:
+    st.dataframe(pd.DataFrame(rows).sort_values("conf", ascending=False))
+else:
+    st.info("No boxes above threshold.")
+# above lines (115-124) attempt to remove the draw over lay, temporary folder logic
+# and manes.txt reading
+
+st.title("♻️ Recyclables Detection — YOLO26l (Current Version Testing)")
 st.subheader("Working on the data set of 3989 images", divider="gray")
 st.write("Upload an image; the model will draw boxes and list predictions with confidence.")
 
