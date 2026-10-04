@@ -112,7 +112,8 @@ model = load_model(weights_path)
 imgsz = st.sidebar.selectbox("Image size", [800, 640, 512, 416], index=0)
 use_tta = st.sidebar.checkbox("Test-time augmentation (slower, more recall)", value=False)
 
-res = model.predict(source=str(src_path), imgsz=int(imgsz), conf=conf_thres,
+img = Image.open(uploaded).convert("RGB") # bypassing the temp file manually created, streamlit may be fine using PIL image directly
+res = model.predict(source=img, imgsz=int(imgsz), conf=conf_thres,
                     augment=use_tta, device="cpu", verbose=False)[0]
 st.image(res.plot()[:, :, ::-1], caption="Detections", use_container_width=True)
 
