@@ -114,7 +114,7 @@ iou_thres = st.sidebar.slider("NMS IoU", 0.10, 0.90, 0.50, 0.01)  # a tad higher
 use_tta = st.sidebar.checkbox("Test-time augmentation (slower, more recall)", value=True)
 
 st.title("♻️ Recyclables Detection — YOLO21l (Current Version Testing)")
-st.subtitle("Working on the data set of 3989 images")
+st.subheader("Working on the data set of 3989 images", divider="gray")
 st.write("Upload an image; the model will draw boxes and list predictions with confidence.")
 
 st.sidebar.markdown(f"**Using weights:** `{weights_path}`")
