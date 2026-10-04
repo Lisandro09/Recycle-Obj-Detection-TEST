@@ -1,6 +1,3 @@
-
-App · PY
-# app/app.py
 import os, pathlib
  
 if os.name == "nt":  # only on Windows
